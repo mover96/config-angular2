@@ -10,7 +10,8 @@ export function typescript(options = {}, exclude: Array<string> = null) {
   return function typescript(this: WebpackConfig): WebpackConfig {
     return {
       resolve: {
-        extensions: get(this, 'resolve.extensions', ['', '.js']).concat(['.ts'])
+        extensions: ['', '.ts', '.js']
+        //get(this, 'resolve.extensions', ['', '.js']).concat(['.ts'])
       },
       module: {
         loaders: get(this, 'module.loaders', []).concat([{
