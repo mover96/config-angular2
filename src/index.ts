@@ -1,6 +1,7 @@
 import {WebpackConfig, get} from '@easy-webpack/core'
 import * as path from 'path'
 import {ForkCheckerPlugin} from 'awesome-typescript-loader'
+import 'regenerator-runtime/runtime'
 
 /**
  * Typescript loader support for .ts
@@ -10,8 +11,7 @@ export function typescript(options = {}, exclude: Array<string> = null) {
   return function typescript(this: WebpackConfig): WebpackConfig {
     return {
       resolve: {
-        extensions: ['', '.ts', '.js']
-        //get(this, 'resolve.extensions', ['', '.js']).concat(['.ts'])
+        extensions: get(this, 'resolve.extensions', ['', '.js']).concat(['.ts'])
       },
       module: {
         loaders: get(this, 'module.loaders', []).concat([{
