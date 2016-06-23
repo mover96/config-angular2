@@ -7,7 +7,7 @@ import 'regenerator-runtime/runtime'
  * Typescript loader support for .ts
  * See: https://github.com/s-panferov/awesome-typescript-loader
  */
-export function typescript(options = {}, exclude: Array<string> = null) {
+export = function typescript(options = {}, exclude: Array<string> = null) {
   return function typescript(this: WebpackConfig): WebpackConfig {
     return {
       resolve: {
