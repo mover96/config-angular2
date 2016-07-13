@@ -1,25 +1,29 @@
 import {WebpackConfig, get} from '@easy-webpack/core'
 import * as path from 'path'
-import {ForkCheckerPlugin} from 'awesome-typescript-loader'
-import 'regenerator-runtime/runtime'
+import {ForkCheckerPlugin, TsConfigPathsPlugin} from 'awesome-typescript-loader'
 
 /**
  * Typescript loader support for .ts
  * See: https://github.com/s-panferov/awesome-typescript-loader
  */
-export = function typescript({options = {}, exclude = null} = {}) {
+export = function typescript({options = undefined, exclude = null} = {}) {
   return function typescript(this: WebpackConfig): WebpackConfig {
+    const loader = {
+      test: /\.tsx?$/,
+      loader: 'awesome-typescript',
+      exclude: exclude || this.metadata.root ? [path.join(this.metadata.root, 'node_modules')] : []
+    } as any
+
+    if (options) {
+      loader.query = options
+    }
+
     return {
       resolve: {
         extensions: get(this, 'resolve.extensions', ['', '.js']).concat(['.ts'])
       },
       module: {
-        loaders: get(this, 'module.loaders', []).concat([{
-          test: /\.tsx?$/,
-          loader: 'awesome-typescript',
-          exclude: exclude || this.metadata.root ? [path.join(this.metadata.root, 'node_modules')] : [],
-          query: options
-        }])
+        loaders: get(this, 'module.loaders', []).concat([loader])
       },
       plugins: [
         /*
@@ -28,7 +32,8 @@ export = function typescript({options = {}, exclude = null} = {}) {
         *
         * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
         */
-        new ForkCheckerPlugin()
+        new ForkCheckerPlugin(),
+        new TsConfigPathsPlugin(options)
       ].concat(get(this, 'plugins', []))
     }
   }
