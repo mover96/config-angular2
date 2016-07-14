@@ -11,7 +11,7 @@ export = function typescript({options = undefined, exclude = null} = {}) {
     const loader = {
       test: /\.tsx?$/,
       loader: 'awesome-typescript',
-      exclude: exclude || this.metadata.root ? [path.join(this.metadata.root, 'node_modules')] : []
+      exclude: exclude || (this.metadata.root ? [path.join(this.metadata.root, 'node_modules')] : [])
     } as any
 
     if (options) {
