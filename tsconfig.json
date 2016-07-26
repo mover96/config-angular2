@@ -16,5 +16,9 @@
     "dist",
     "test",
     "example"
-  ]
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "forkChecker": true,
+    "useWebpackText": true
+  }
 }

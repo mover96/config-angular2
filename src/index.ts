@@ -10,8 +10,18 @@ export = function typescript({options = undefined, exclude = null} = {}) {
   return function typescript(this: WebpackConfig): WebpackConfig {
     const loader = {
       test: /\.tsx?$/,
-      loader: 'awesome-typescript',
+      loaders: ['awesome-typescript', 'angular2-template'],
       exclude: exclude || (this.metadata.root ? [path.join(this.metadata.root, 'node_modules')] : [])
+    } as any
+
+    const htmlLoader = {
+      test: /\.html$/,
+      loader: 'raw'
+    } as any
+
+    const cssLoader = {
+      test: /\.css$/,
+      loader: 'raw'
     } as any
 
     if (options) {
@@ -23,7 +33,7 @@ export = function typescript({options = undefined, exclude = null} = {}) {
         extensions: get(this, 'resolve.extensions', ['', '.js']).concat(['.ts'])
       },
       module: {
-        loaders: get(this, 'module.loaders', []).concat([loader])
+        loaders: get(this, 'module.loaders', []).concat([loader]).concat([htmlLoader]).concat([cssLoader])
       },
       plugins: [
         /*
